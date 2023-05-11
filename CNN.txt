@@ -1,0 +1,29 @@
+int fa0/0
+ip add 10.0.0.1 255.0.0.0
+no shut
+
+int serial0/0/0
+ip add 20.0.0.1 255.0.0.0
+no shut
+
+enable config t 
+int fa0/0
+ip nat inside
+int fa0/1
+ip nat outside
+exit
+ip nat inside source static 192.168.1.10 100.100.100.10
+exit
+
+enable
+config t
+access-list 1 deny 192.168.2.2 0.0.0.0
+access-list 1 permit any
+
+enable
+config t
+router ospf 1
+network 19.168.1.0 0.0.0.255 area 0
+network 10.0.0.0 0.0.0.255 area 0
+end
+write
